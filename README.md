@@ -12,6 +12,13 @@ Clone the Repository
 ```
 git clone https://github.com/deveshXm/movie-recommendation-algorithm.git
 ```
+### Requirements
+
+run command to install necessary packages
+
+```
+pip install -r requirements.txt
+```
 
 Run the following Command to host the FastAPI Locally
 
