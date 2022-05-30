@@ -23,5 +23,5 @@ pip install -r requirements.txt
 Run the following Command to host the FastAPI Locally
 
 ```
-uvicorn main:app --reload
+uvicorn main:app --port 8000 --reload
 ```
