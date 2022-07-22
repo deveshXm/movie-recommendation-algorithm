@@ -1,3 +1,4 @@
+from importlib.abc import ResourceReader
 import uvicorn
 from fastapi import FastAPI, HTTPException
 import numpy as np
@@ -26,7 +27,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-movie = "iron man"
 res = []
 
 new = pickle.load(open('new.pkl','rb'))
@@ -38,6 +38,9 @@ similarity = pickle.load(open('similarity.pkl','rb'))
 
         
 def recommend(movie_name):
+    if(movie_name == ""):
+        movie_name = "iron man"
+    res.clear()
     list_of_all_titles = movies['title'].tolist()
     find_close_match = difflib.get_close_matches(movie_name, list_of_all_titles)
     close_match = find_close_match[0]
@@ -46,7 +49,6 @@ def recommend(movie_name):
     index = new[new['title'] == close_match].index[0]
     distances = sorted(list(enumerate(similarity[index])),reverse=True,key = lambda x: x[1])
     print('Movies suggested for you : \n')
-    res = []
     i = 1
 
     for i in distances[1:10]:
@@ -57,23 +59,21 @@ def recommend(movie_name):
             res.append(data)
     return res
 
+recommend("iron man")
 #fucntion to search movie in dataset
 
-@app.get('/{movie}')
+@app.post('/{movie}')
 
-def get_movie(movie:str):        
-    res = recommend(movie)
-    pickle.dump(res,open("res.pkl","wb"))
+def post_movie(movie:str):        
+    recommend(movie)
     return {"successfull"}
 
-@app.get('/items/predict')
+@app.get('/movies/predict')
 
 def get_movie():
-    res = pickle.load(open('res.pkl','rb'))
     return res
 
 if __name__ == '__main__':
     uvicorn.run(app,host ='127.0.0.1',port = 5000)
-
 
 
