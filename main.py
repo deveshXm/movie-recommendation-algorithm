@@ -13,9 +13,6 @@ from fastapi.middleware.cors import CORSMiddleware
 class Item(BaseModel):
     movie:str
 
-
-
-
 app = FastAPI()
 
 origins = ["*"]
@@ -33,9 +30,7 @@ new = pickle.load(open('new.pkl','rb'))
 movies = pickle.load(open('movie_list.pkl','rb'))
 similarity = pickle.load(open('similarity.pkl','rb'))
 
-
 # function to recommend movies 
-
         
 def recommend(movie_name):
     if(movie_name == ""):
